@@ -21,7 +21,6 @@ app.get("/",async(req,res)=>{
                 res.status(400).send({ error: 'Invalid URL format.' }); 
                 return;
             }
-            res.send("hello1");
             browser = await puppeteer.launch({
                 args:[
                     "--disable-setuid-sandbox",
@@ -48,9 +47,7 @@ app.get("/",async(req,res)=>{
             }
             await browser.close(); 
 
-        })();
-    
-    
+        })(); 
 })
 
 const PORT = process.env.PORT || 3000;
