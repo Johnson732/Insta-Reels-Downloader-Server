@@ -2,6 +2,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require("cors");
+const { cacheDirectory } = require('./puppeteer.config');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -16,10 +17,9 @@ app.get("/",async(req,res)=>{
             const validUrlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
             if (!validUrlRegex.test(userUrl)) {
                 console.error('Invalid URL format:', userUrl);
-                return res.status(400).send({ error: 'Invalid URL format.' });
-                
+                return res.status(400).send({ error: 'Invalid URL format.' }); 
             }
-            const browser = await puppeteer.launch({ headless: true });
+            const browser = await puppeteer.launch({ headless: true,cacheDirectory });
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
             await page.setViewport({ width: 1920, height: 1080 });
