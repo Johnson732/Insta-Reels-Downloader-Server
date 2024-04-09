@@ -2,7 +2,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require("cors");
-const { cacheDirectory } = require('./puppeteer.config');
+//const { cacheDirectory } = require('./puppeteer.config');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,7 +19,8 @@ app.get("/",async(req,res)=>{
                 console.error('Invalid URL format:', userUrl);
                 return res.status(400).send({ error: 'Invalid URL format.' }); 
             }
-            const browser = await puppeteer.launch({ headless: true,cacheDirectory });
+            res.send("hello1");
+            const browser = await puppeteer.launch({ headless: true });
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
             await page.setViewport({ width: 1920, height: 1080 });
@@ -38,10 +39,12 @@ app.get("/",async(req,res)=>{
                 console.log('Video element not found on the original page.');
                 res.status(404).send({ error: 'Video element not found on the original page.' });
             }
-            await browser.close(); 
+           
         })();
     }catch(error){
         console.log(error);
+    }finally{
+        await browser.close(); 
     }  
     
 })
