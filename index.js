@@ -6,13 +6,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/vid",async(req,res)=>{
+app.get("/",async(req,res)=>{
+    try{
         let output='';
         const userUrl=req.query.userUrl;
         (async () => {
             const validUrlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
             if (!validUrlRegex.test(userUrl)) {
-                //console.error('Invalid URL format:', userUrl);
+                console.error('Invalid URL format:', userUrl);
                 res.status(400).send({ error: 'Invalid URL format.' });
                 return;
             }
@@ -32,11 +33,14 @@ app.get("/vid",async(req,res)=>{
             //console.log("video url present");
             res.json(output);
             }else {
-                //console.log('Video element not found on the original page.');
+                console.log('Video element not found on the original page.');
                 res.status(404).send({ error: 'Video element not found on the original page.' });
             }
             await browser.close(); 
-        })();  
+        })();
+    }catch(error){
+        console.log(error);
+    }  
     
 })
 
