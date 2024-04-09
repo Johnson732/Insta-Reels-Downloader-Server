@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/",async(req,res)=>{
+    let browser;
     try{
         let output='';
         const userUrl=req.query.userUrl;
@@ -21,7 +22,7 @@ app.get("/",async(req,res)=>{
                 return res.status(400).send({ error: 'Invalid URL format.' }); 
             }
             res.send("hello1");
-            const browser = await puppeteer.launch({
+            browser = await puppeteer.launch({
                 args:[
                     "--disable-setuid-sandbox",
                     "--no-sandbox",
@@ -47,13 +48,17 @@ app.get("/",async(req,res)=>{
                 console.log('Video element not found on the original page.');
                 res.status(404).send({ error: 'Video element not found on the original page.' });
             }
-           
+            //await browser.close(); 
+
         })();
     }catch(error){
         console.log(error);
-    }finally{
-        await browser.close(); 
-    }  
+    }finally {
+        // Close the browser in the finally block to ensure it's closed even if an error occurs
+        if (browser) {
+            await browser.close();
+        }
+    }
     
 })
 
