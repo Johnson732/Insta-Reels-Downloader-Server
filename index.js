@@ -45,11 +45,8 @@ app.get("/",async(req,res)=>{
             console.log("video url present");
             console.log("vid",videoSrc);
             res.json(output);
-            }else {
-                console.log('Video element not found on the original page.');
-                res.status(404).send({ error: 'Video element not found on the original page.' });
             }
-            //await browser.close(); 
+            await browser.close(); 
 
         })();
     
