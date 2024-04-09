@@ -9,8 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/",async(req,res)=>{
-    let browser;
-    try{
+        let browser;
         let output='';
         const userUrl=req.query.userUrl;
         console.log("user   -" ,userUrl);
@@ -43,7 +42,8 @@ app.get("/",async(req,res)=>{
             });
             output=videoSrc;
             if (videoSrc) {
-            //console.log("video url present");
+            console.log("video url present");
+            console.log("vid",videoSrc);
             res.json(output);
             }else {
                 console.log('Video element not found on the original page.');
@@ -52,14 +52,7 @@ app.get("/",async(req,res)=>{
             //await browser.close(); 
 
         })();
-    }catch(error){
-        console.log(error);
-    }finally {
-        // Close the browser in the finally block to ensure it's closed even if an error occurs
-        if (browser) {
-            await browser.close();
-        }
-    }
+    
     
 })
 
