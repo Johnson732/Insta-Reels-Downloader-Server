@@ -19,7 +19,8 @@ app.get("/",async(req,res)=>{
             const validUrlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
             if (!validUrlRegex.test(userUrl)) {
                 console.error('Invalid URL format:', userUrl);
-                return res.status(400).send({ error: 'Invalid URL format.' }); 
+                res.status(400).send({ error: 'Invalid URL format.' }); 
+                return;
             }
             res.send("hello1");
             browser = await puppeteer.launch({
